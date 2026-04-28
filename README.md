@@ -89,7 +89,7 @@ homelab --backup
 
 **На новому сервері (чиста Ubuntu):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/homelab-manager/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mrhavzerone/homelab-manager/main/install.sh | bash
 # install.sh сам запропонує відновити по SSH або з диску
 ```
 
