@@ -1,0 +1,5 @@
+'GITIGNORE'
+*.log
+*.tar.gz
+.homelab_manager.conf
+GITIGNORE
