@@ -12,7 +12,7 @@
 set -euo pipefail
 
 HOMELAB_BIN="/usr/local/bin/homelab"
-HOMELAB_SCRIPT_URL="https://raw.githubusercontent.com/havzerone/homelab-manager/main/homelab.sh"
+HOMELAB_SCRIPT_URL="https://raw.githubusercontent.com/mrhavzerone/homelab-manager/main/homelab.sh"
 LOG_FILE="/var/log/homelab_manager.log"
 CONFIG_FILE="$HOME/.homelab_manager.conf"
 
