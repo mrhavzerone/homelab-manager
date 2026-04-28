@@ -21,14 +21,14 @@
 ### На чистій машині (Ubuntu/Debian)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/homelab-manager/main/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/mrhavzerone/homelab-manager/main/install.sh -o install.sh
 bash install.sh
 ```
 
 ### Локально (якщо файли вже є)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/homelab-manager
+git clone https://github.com/mrhavzerone/homelab-manager
 cd homelab-manager
 bash install.sh
 ```
