@@ -108,21 +108,24 @@ list_mounted_disks() {
     echo ""
 }
 
+# Глобальна змінна для результату вибору шляху
+CHOSEN_PATH=""
+
 pick_path_readline() {
     local prompt="$1"
     local current="$2"
     local chosen
-    # Весь вивід на екран через stderr щоб не забруднити stdout
-    echo "" >&2
-    echo -e "${BOLD}${CYAN}  $prompt${NC}" >&2
-    echo -e "${YELLOW}  Tab -- автодоповнення, Enter -- пiдтвердити${NC}" >&2
-    echo -e "  Поточний: ${GREEN}$current${NC}" >&2
-    echo -ne "  Новий шлях: " >&2
+    clear
+    echo ""
+    echo -e "${BOLD}${CYAN}  $prompt${NC}"
+    echo -e "${YELLOW}  Tab -- автодоповнення, Enter -- пiдтвердити${NC}"
+    echo -e "  Поточний: ${GREEN}$current${NC}"
+    echo -ne "  Новий шлях: "
     bind 'set show-all-if-ambiguous on' 2>/dev/null || true
     bind 'set completion-ignore-case on' 2>/dev/null || true
     IFS= read -r -e -i "$current" chosen </dev/tty
-    # Тільки результат йде в stdout
-    echo "${chosen:-$current}"
+    # Результат в глобальну змінну, не в stdout
+    CHOSEN_PATH="${chosen:-$current}"
 }
 
 choose_path() {
@@ -154,12 +157,12 @@ choose_path() {
         3>&1 1>&2 2>&3) || { echo "$current"; return; }
 
     if [ "$CHOICE" = "__manual__" ]; then
-        # Виводимо на stderr щоб не забруднити stdout який йде в змінну
-        clear >&2
-        list_mounted_disks >&2
+        clear
+        list_mounted_disks
         pick_path_readline "$title" "$current"
+        # CHOSEN_PATH вже встановлено в pick_path_readline
     else
-        echo "$CHOICE"
+        CHOSEN_PATH="$CHOICE"
     fi
 }
 
@@ -454,26 +457,26 @@ do_settings() {
 
         case "$CHOICE" in
             1)
-                local NEW; NEW=$(choose_path "Джерело бекапу" "Звiдки робити бекап:" "$SOURCE_DIR")
-                if [ -d "$NEW" ]; then
-                    SOURCE_DIR="$NEW"; save_config
+                choose_path "Джерело бекапу" "Звiдки робити бекап:" "$SOURCE_DIR"
+                if [ -d "$CHOSEN_PATH" ]; then
+                    SOURCE_DIR="$CHOSEN_PATH"; save_config
                     whiptail --title "Збережено" --msgbox "SOURCE_DIR:\n$SOURCE_DIR" 8 62
                 else
-                    whiptail --title "Помилка" --msgbox "Шлях не iснує:\n$NEW" 8 52
+                    whiptail --title "Помилка" --msgbox "Шлях не iснує:\n$CHOSEN_PATH" 8 52
                 fi
                 ;;
             2)
-                local NEW; NEW=$(choose_path "Папка для бекапiв" "Куди зберiгати архiви:" "$BACKUP_DIR")
-                BACKUP_DIR="$NEW"; save_config
+                choose_path "Папка для бекапiв" "Куди зберiгати архiви:" "$BACKUP_DIR"
+                BACKUP_DIR="$CHOSEN_PATH"; save_config
                 whiptail --title "Збережено" --msgbox "BACKUP_DIR:\n$BACKUP_DIR\n\n(Буде створена автоматично)" 10 64
                 ;;
             3)
-                local NEW; NEW=$(choose_path "Цiль вiдновлення" "Куди розпаковувати:" "$TARGET_DIR")
-                if [ -d "$NEW" ]; then
-                    TARGET_DIR="$NEW"; save_config
+                choose_path "Цiль вiдновлення" "Куди розпаковувати:" "$TARGET_DIR"
+                if [ -d "$CHOSEN_PATH" ]; then
+                    TARGET_DIR="$CHOSEN_PATH"; save_config
                     whiptail --title "Збережено" --msgbox "TARGET_DIR:\n$TARGET_DIR" 8 62
                 else
-                    whiptail --title "Помилка" --msgbox "Шлях не iснує:\n$NEW" 8 52
+                    whiptail --title "Помилка" --msgbox "Шлях не iснує:\n$CHOSEN_PATH" 8 52
                 fi
                 ;;
             4)
