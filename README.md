@@ -21,7 +21,8 @@
 ### На чистій машині (Ubuntu/Debian)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/homelab-manager/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/homelab-manager/main/install.sh -o install.sh
+bash install.sh
 ```
 
 ### Локально (якщо файли вже є)
