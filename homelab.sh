@@ -5,7 +5,7 @@
 #  Version: 3.0
 #  Author: havzerone
 #  License: MIT
-#  GitHub: https://github.com/havzerone/homelab-manager
+#  GitHub: https://github.com/mrhavzerone/homelab-manager
 #
 #  Usage:
 #    homelab              -- interactive menu
@@ -152,8 +152,9 @@ choose_path() {
         3>&1 1>&2 2>&3) || { echo "$current"; return; }
 
     if [ "$CHOICE" = "__manual__" ]; then
-        clear
-        list_mounted_disks
+        # Виводимо на stderr щоб не забруднити stdout який йде в змінну
+        clear >&2
+        list_mounted_disks >&2
         pick_path_readline "$title" "$current"
     else
         echo "$CHOICE"
