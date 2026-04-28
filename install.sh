@@ -4,7 +4,7 @@
 #  install.sh -- Homelab Manager Bootstrap Installer
 #  Version: 1.0
 #  Usage on fresh Ubuntu machine:
-#    curl -fsSL https://raw.githubusercontent.com/havzerone/homelab-manager/main/install.sh | bash
+#    curl -fsSL https://raw.githubusercontent.com/mrhavzerone/homelab-manager/main/install.sh | bash
 #  Or locally:
 #    bash install.sh
 # ============================================================
