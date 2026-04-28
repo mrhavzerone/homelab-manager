@@ -9,7 +9,7 @@
 #    bash install.sh
 # ============================================================
 
-set -euo pipefail
+set -eo pipefail
 
 HOMELAB_BIN="/usr/local/bin/homelab"
 HOMELAB_SCRIPT_URL="https://raw.githubusercontent.com/mrhavzerone/homelab-manager/main/homelab.sh"
@@ -131,10 +131,11 @@ step "3/6" "Налаштування параметрiв"
 echo ""
 
 # Iм'я користувача
-CURRENT_USER="$USER"
+CURRENT_USER="${SUDO_USER:-${USER:-$(whoami)}}"
 ask "Iм'я користувача сервера [$CURRENT_USER]: "
 read -r INPUT_USER
 HOMELAB_USER="${INPUT_USER:-$CURRENT_USER}"
+HOMELAB_USER="${HOMELAB_USER:-$(whoami)}"
 HOMELAB_HOME="/home/$HOMELAB_USER"
 
 if [ ! -d "$HOMELAB_HOME" ]; then
