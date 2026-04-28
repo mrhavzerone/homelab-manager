@@ -112,14 +112,16 @@ pick_path_readline() {
     local prompt="$1"
     local current="$2"
     local chosen
-    echo ""
-    echo -e "${BOLD}${CYAN}  $prompt${NC}"
-    echo -e "${YELLOW}  Tab -- автодоповнення, Enter -- пiдтвердити${NC}"
-    echo -e "  Поточний: ${GREEN}$current${NC}"
-    echo -ne "  Новий шлях: "
+    # Весь вивід на екран через stderr щоб не забруднити stdout
+    echo "" >&2
+    echo -e "${BOLD}${CYAN}  $prompt${NC}" >&2
+    echo -e "${YELLOW}  Tab -- автодоповнення, Enter -- пiдтвердити${NC}" >&2
+    echo -e "  Поточний: ${GREEN}$current${NC}" >&2
+    echo -ne "  Новий шлях: " >&2
     bind 'set show-all-if-ambiguous on' 2>/dev/null || true
     bind 'set completion-ignore-case on' 2>/dev/null || true
-    IFS= read -r -e -i "$current" chosen
+    IFS= read -r -e -i "$current" chosen </dev/tty
+    # Тільки результат йде в stdout
     echo "${chosen:-$current}"
 }
 
